@@ -1,0 +1,339 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    color: #171717;
+    line-height: 1.6;
+}
+
+
+/* -------------------------
+   NAVIGASJON
+------------------------- */
+
+header {
+    height: 80px;
+    padding: 0 6%;
+    background: #111;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    color: white;
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.logo span {
+    color: #f5b400;
+}
+
+nav {
+    display: flex;
+    gap: 30px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+nav a:hover {
+    color: #f5b400;
+}
+
+
+/* -------------------------
+   HERO
+------------------------- */
+
+.hero {
+    min-height: 650px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 80px 8%;
+
+    background:
+        linear-gradient(
+            rgba(0, 0, 0, 0.65),
+            rgba(0, 0, 0, 0.65)
+        ),
+        url("https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=2000&q=80");
+
+    background-size: cover;
+    background-position: center;
+
+    color: white;
+}
+
+.hero-content {
+    max-width: 750px;
+}
+
+.hero-small,
+.section-small {
+    color: #f5b400;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-size: 13px;
+}
+
+.hero h1 {
+    font-size: clamp(42px, 6vw, 72px);
+    line-height: 1.05;
+    margin: 15px 0 25px;
+}
+
+.hero-text {
+    max-width: 600px;
+    font-size: 19px;
+    color: #e5e5e5;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 35px;
+}
+
+
+/* -------------------------
+   KNAPPER
+------------------------- */
+
+.button {
+    display: inline-block;
+
+    padding: 15px 28px;
+
+    background: #f5b400;
+    color: #111;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+    border-radius: 5px;
+
+    transition: 0.2s;
+}
+
+.button:hover {
+    transform: translateY(-2px);
+}
+
+.button-outline {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+}
+
+
+/* -------------------------
+   SEKSJONER
+------------------------- */
+
+section:not(.hero):not(.contact) {
+    max-width: 1200px;
+    margin: auto;
+    padding: 100px 6%;
+}
+
+section h2 {
+    font-size: 42px;
+    line-height: 1.1;
+    margin-top: 5px;
+    margin-bottom: 40px;
+}
+
+
+/* -------------------------
+   TJENESTER
+------------------------- */
+
+.services {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.service {
+    background: white;
+    padding: 35px;
+    border-radius: 8px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+
+    transition: 0.2s;
+}
+
+.service:hover {
+    transform: translateY(-5px);
+}
+
+.service-icon {
+    font-size: 35px;
+}
+
+.service h3 {
+    font-size: 22px;
+}
+
+
+/* -------------------------
+   OM OSS
+------------------------- */
+
+.about {
+    background: white;
+}
+
+.about > div {
+    max-width: 750px;
+}
+
+
+/* -------------------------
+   REFERANSER
+------------------------- */
+
+.reviews {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.review {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+}
+
+.review p {
+    font-size: 18px;
+}
+
+
+/* -------------------------
+   KONTAKT
+------------------------- */
+
+.contact {
+    max-width: none !important;
+
+    text-align: center;
+
+    padding: 100px 20px;
+
+    background: #111;
+
+    color: white;
+}
+
+.contact h2 {
+    margin-bottom: 20px;
+}
+
+.contact p {
+    color: #ccc;
+}
+
+.contact-buttons {
+    margin-top: 30px;
+
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+
+/* -------------------------
+   FOOTER
+------------------------- */
+
+footer {
+    padding: 35px 6%;
+
+    background: #080808;
+
+    color: white;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+footer p {
+    color: #888;
+}
+
+
+/* -------------------------
+   MOBIL
+------------------------- */
+
+@media (max-width: 750px) {
+
+    header {
+        height: auto;
+        padding: 20px;
+
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    nav {
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .hero {
+        min-height: 600px;
+        padding: 60px 25px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    section:not(.hero):not(.contact) {
+        padding: 70px 25px;
+    }
+
+    section h2 {
+        font-size: 34px;
+    }
+
+    .services,
+    .reviews {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    footer {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
