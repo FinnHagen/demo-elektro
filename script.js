@@ -39,3 +39,30 @@ navLinks.forEach(link => {
     menuToggle.setAttribute("aria-label", "Åpne meny");
   });
 });
+
+const contactForm = document.getElementById("contactForm");
+
+contactForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const formData = new FormData(contactForm);
+
+  try {
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      alert("Takk! Forespørselen er mottatt.");
+      contactForm.reset();
+    } else {
+      alert("Noe gikk galt. Prøv igjen.");
+    }
+  } catch (error) {
+    console.error(error);
+    alert("Kunne ikke sende forespørselen.");
+  }
+});
