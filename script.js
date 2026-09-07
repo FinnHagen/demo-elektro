@@ -41,9 +41,13 @@ navLinks.forEach(link => {
 });
 
 const contactForm = document.getElementById("contactForm");
+const formStatus = document.getElementById("formStatus");
 
 contactForm.addEventListener("submit", async (event) => {
   event.preventDefault();
+
+  formStatus.textContent = "Sender...";
+  formStatus.className = "form-status sending";
 
   const formData = new FormData(contactForm);
 
@@ -55,14 +59,27 @@ contactForm.addEventListener("submit", async (event) => {
 
     const data = await response.json();
 
-    if (data.success) {
-      alert("Takk! Forespørselen er mottatt.");
-      contactForm.reset();
-    } else {
-      alert("Noe gikk galt. Prøv igjen.");
+    if (!response.ok || !data.success) {
+      throw new Error(data.message || "Kunne ikke sende forespørselen");
     }
+
+    formStatus.textContent =
+      "✓ Takk! Forespørselen er sendt. Vi tar kontakt så snart som mulig.";
+
+    formStatus.className = "form-status success";
+
+    contactForm.reset();
+
+    if (window.turnstile) {
+      turnstile.reset();
+    }
+
   } catch (error) {
     console.error(error);
-    alert("Kunne ikke sende forespørselen.");
+
+    formStatus.textContent =
+      "Noe gikk galt. Prøv igjen, eller kontakt oss på telefon.";
+
+    formStatus.className = "form-status error";
   }
 });

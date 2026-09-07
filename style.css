@@ -568,3 +568,22 @@ footer p {
     height: 19px;
   }
 }
+
+.form-status {
+    min-height: 24px;
+    margin: 14px 0 0;
+    text-align: center;
+    font-weight: 600;
+}
+
+.form-status.sending {
+    color: #ddd;
+}
+
+.form-status.success {
+    color: #7ed957;
+}
+
+.form-status.error {
+    color: #ff6b6b;
+}
