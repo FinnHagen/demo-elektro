@@ -337,3 +337,33 @@ footer p {
         gap: 10px;
     }
 }
+
+#topBtn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  background: #f5c400;
+  color: #111;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: 0.3s;
+}
+
+#topBtn.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+#topBtn:hover {
+  transform: translateY(-3px);
+}
