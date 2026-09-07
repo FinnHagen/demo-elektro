@@ -6,26 +6,60 @@ export async function onRequestPost(context) {
     const phone = formData.get("phone");
     const email = formData.get("email");
     const message = formData.get("message");
+    const turnstileToken = formData.get("cf-turnstile-response");
 
     if (!name || !phone || !message) {
-      return new Response(
-        JSON.stringify({
+      return jsonResponse(
+        {
           success: false,
           message: "Manglende obligatoriske felter"
-        }),
+        },
+        400
+      );
+    }
+
+    if (!turnstileToken) {
+      return jsonResponse(
         {
-          status: 400,
-          headers: {
-            "Content-Type": "application/json"
-          }
-        }
+          success: false,
+          message: "Sikkerhetskontrollen mangler"
+        },
+        400
+      );
+    }
+
+    const turnstileResponse = await fetch(
+      "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: new URLSearchParams({
+          secret: context.env.TURNSTILE_SECRET_KEY,
+          response: turnstileToken
+        })
+      }
+    );
+
+    const turnstileResult = await turnstileResponse.json();
+
+    if (!turnstileResult.success) {
+      console.error("Turnstile verification failed:", turnstileResult);
+
+      return jsonResponse(
+        {
+          success: false,
+          message: "Sikkerhetskontrollen ble ikke godkjent"
+        },
+        403
       );
     }
 
     const resendResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${context.env.RESEND_API_KEY}`,
+        Authorization: `Bearer ${context.env.RESEND_API_KEY}`,
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -50,48 +84,40 @@ export async function onRequestPost(context) {
       const error = await resendResponse.text();
       console.error("Resend error:", error);
 
-      return new Response(
-        JSON.stringify({
+      return jsonResponse(
+        {
           success: false,
           message: "Kunne ikke sende e-post"
-        }),
-        {
-          status: 500,
-          headers: {
-            "Content-Type": "application/json"
-          }
-        }
+        },
+        500
       );
     }
 
-    return new Response(
-      JSON.stringify({
-        success: true,
-        message: "Forespørselen ble sendt"
-      }),
-      {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }
-    );
+    return jsonResponse({
+      success: true,
+      message: "Forespørselen ble sendt"
+    });
 
   } catch (error) {
     console.error(error);
 
-    return new Response(
-      JSON.stringify({
+    return jsonResponse(
+      {
         success: false,
         message: "Serverfeil"
-      }),
-      {
-        status: 500,
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }
+      },
+      500
     );
   }
+}
+
+function jsonResponse(data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
 }
 
 function escapeHtml(value) {
