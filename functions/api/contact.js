@@ -2,17 +2,47 @@ export async function onRequestPost(context) {
   try {
     const formData = await context.request.formData();
 
-    const name = formData.get("name");
-    const phone = formData.get("phone");
-    const email = formData.get("email");
-    const message = formData.get("message");
+    const name = formData.get("name")?.toString().trim() || "";
+    const phone = formData.get("phone")?.toString().trim() || "";
+    const email = formData.get("email")?.toString().trim() || "";
+    const message = formData.get("message")?.toString().trim() || "";
     const turnstileToken = formData.get("cf-turnstile-response");
 
-    if (!name || !phone || !message) {
+    if (name.length < 2 || name.length > 100) {
       return jsonResponse(
         {
           success: false,
-          message: "Manglende obligatoriske felter"
+          message: "Ugyldig navn"
+        },
+        400
+      );
+    }
+
+    if (!/^[0-9+\s()-]{5,20}$/.test(phone)) {
+      return jsonResponse(
+        {
+          success: false,
+          message: "Ugyldig telefonnummer"
+        },
+        400
+      );
+    }
+
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return jsonResponse(
+        {
+          success: false,
+          message: "Ugyldig e-postadresse"
+        },
+        400
+      );
+    }
+
+    if (message.length < 5 || message.length > 5000) {
+      return jsonResponse(
+        {
+          success: false,
+          message: "Ugyldig melding"
         },
         400
       );
