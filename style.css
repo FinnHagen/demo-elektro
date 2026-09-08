@@ -638,3 +638,7 @@ footer p {
     color: #ddd;
     line-height: 1.6;
 }
+
+.contact-form[hidden] {
+    display: none;
+}
