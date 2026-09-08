@@ -587,3 +587,54 @@ footer p {
 .form-status.error {
     color: #ff6b6b;
 }
+
+
+/* -------------------------
+   TAKKEMELDING KONTAKTSKJEMA
+------------------------- */
+
+.form-success {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 35px 25px;
+
+    text-align: center;
+
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 10px;
+}
+
+.form-success[hidden] {
+    display: none;
+}
+
+.success-check {
+    width: 55px;
+    height: 55px;
+    margin: 0 auto 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f5c400;
+    color: #111;
+
+    border-radius: 50%;
+
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.form-success h3 {
+    margin: 0 0 12px;
+    color: white;
+    font-size: 24px;
+}
+
+.form-success p {
+    margin: 0;
+    color: #ddd;
+    line-height: 1.6;
+}

@@ -42,6 +42,7 @@ navLinks.forEach(link => {
 
 const contactForm = document.getElementById("contactForm");
 const formStatus = document.getElementById("formStatus");
+const formSuccess = document.getElementById("formSuccess");
 
 contactForm.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -63,16 +64,11 @@ contactForm.addEventListener("submit", async (event) => {
       throw new Error(data.message || "Kunne ikke sende forespørselen");
     }
 
-    formStatus.textContent =
-      "✓ Takk! Forespørselen er sendt. Vi tar kontakt så snart som mulig.";
-
-    formStatus.className = "form-status success";
+    formStatus.textContent = "";
 
     contactForm.reset();
-
-    if (window.turnstile) {
-      turnstile.reset();
-    }
+    contactForm.hidden = true;
+    formSuccess.hidden = false;
 
   } catch (error) {
     console.error(error);
