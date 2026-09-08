@@ -9,6 +9,7 @@ export async function onRequestPost(context) {
     const turnstileToken = formData.get("cf-turnstile-response");
 
     if (name.length < 2 || name.length > 100) {
+      console.warn("Contact form: Validation failed - name");
       return jsonResponse(
         {
           success: false,
@@ -19,6 +20,7 @@ export async function onRequestPost(context) {
     }
 
     if (!/^[0-9+\s()-]{5,20}$/.test(phone)) {
+      console.warn("Contact form: Validation failed - phone");
       return jsonResponse(
         {
           success: false,
@@ -29,6 +31,7 @@ export async function onRequestPost(context) {
     }
 
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      console.warn("Contact form: Validation failed - email");
       return jsonResponse(
         {
           success: false,
@@ -39,6 +42,7 @@ export async function onRequestPost(context) {
     }
 
     if (message.length < 5 || message.length > 5000) {
+      console.warn("Contact form: Validation failed - message");
       return jsonResponse(
         {
           success: false,
@@ -75,7 +79,7 @@ export async function onRequestPost(context) {
     const turnstileResult = await turnstileResponse.json();
 
     if (!turnstileResult.success) {
-      console.error("Turnstile verification failed:", turnstileResult);
+      console.warn("Contact form: Turnstile verification failed");
 
       return jsonResponse(
         {
@@ -111,8 +115,8 @@ export async function onRequestPost(context) {
     });
 
     if (!resendResponse.ok) {
-      const error = await resendResponse.text();
-      console.error("Resend error:", error);
+      await resendResponse.text();
+      console.error("Contact form: Resend failed");
 
       return jsonResponse(
         {
@@ -123,13 +127,15 @@ export async function onRequestPost(context) {
       );
     }
 
+    console.log("Contact form: Message sent successfully");
+
     return jsonResponse({
       success: true,
       message: "Forespørselen ble sendt"
     });
 
   } catch (error) {
-    console.error(error);
+    console.error("Contact form: Unexpected server error");
 
     return jsonResponse(
       {
