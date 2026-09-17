@@ -433,6 +433,54 @@ footer p {
   transform: translateY(-3px);
 }
 
+/* -------------------------
+   FAQ
+------------------------- */
+
+.faq-list {
+    max-width: 850px;
+}
+
+.faq-item {
+    border-bottom: 1px solid #d5d5d5;
+}
+
+.faq-item:first-child {
+    border-top: 1px solid #d5d5d5;
+}
+
+.faq-item summary {
+    padding: 22px 40px 22px 0;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    position: relative;
+    list-style: none;
+}
+
+.faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq-item summary::after {
+    content: "+";
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 26px;
+    font-weight: 400;
+}
+
+.faq-item[open] summary::after {
+    content: "−";
+}
+
+.faq-item p {
+    max-width: 750px;
+    margin: 0;
+    padding: 0 40px 22px 0;
+}
 
 /* -------------------------
    MOBIL
@@ -811,4 +859,19 @@ footer p {
 
     background-size: cover;
     background-position: center;
+}
+
+/* -------------------------
+   TEKSTLENKER
+------------------------- */
+
+.text-link {
+    color: #b88400;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.text-link:hover {
+    color: #111;
 }
