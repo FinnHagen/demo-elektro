@@ -1,81 +1,147 @@
+// -------------------------
+// TIL TOPPEN-KNAPP
+// -------------------------
+
 const topBtn = document.getElementById("topBtn");
 
-window.addEventListener("scroll", () => {
-  if (window.scrollY > 300) {
-    topBtn.classList.add("show");
-  } else {
-    topBtn.classList.remove("show");
-  }
-});
+if (topBtn) {
 
-topBtn.addEventListener("click", () => {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 300) {
+      topBtn.classList.add("show");
+    } else {
+      topBtn.classList.remove("show");
+    }
   });
-});
+
+  topBtn.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  });
+
+}
+
+
+// -------------------------
+// MOBILMENY
+// -------------------------
 
 const menuToggle = document.getElementById("menuToggle");
 const mainNav = document.getElementById("mainNav");
 
-menuToggle.addEventListener("click", () => {
-  mainNav.classList.toggle("open");
+if (menuToggle && mainNav) {
 
-  if (mainNav.classList.contains("open")) {
-    menuToggle.textContent = "✕";
-    menuToggle.setAttribute("aria-label", "Lukk meny");
-  } else {
-    menuToggle.textContent = "☰";
-    menuToggle.setAttribute("aria-label", "Åpne meny");
-  }
-});
+  menuToggle.addEventListener("click", () => {
+    mainNav.classList.toggle("open");
 
-const navLinks = mainNav.querySelectorAll("a");
-
-navLinks.forEach(link => {
-  link.addEventListener("click", () => {
-    mainNav.classList.remove("open");
-    menuToggle.textContent = "☰";
-    menuToggle.setAttribute("aria-label", "Åpne meny");
+    if (mainNav.classList.contains("open")) {
+      menuToggle.textContent = "✕";
+      menuToggle.setAttribute("aria-label", "Lukk meny");
+    } else {
+      menuToggle.textContent = "☰";
+      menuToggle.setAttribute("aria-label", "Åpne meny");
+    }
   });
-});
+
+
+  const navLinks = mainNav.querySelectorAll("a");
+
+  navLinks.forEach(link => {
+    link.addEventListener("click", () => {
+      mainNav.classList.remove("open");
+      menuToggle.textContent = "☰";
+      menuToggle.setAttribute("aria-label", "Åpne meny");
+    });
+  });
+
+}
+
+
+// -------------------------
+// KONTAKTSKJEMA
+// -------------------------
 
 const contactForm = document.getElementById("contactForm");
 const formStatus = document.getElementById("formStatus");
 const formSuccess = document.getElementById("formSuccess");
 
-contactForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
+if (contactForm && formStatus && formSuccess) {
 
-  formStatus.textContent = "Sender...";
-  formStatus.className = "form-status sending";
+  contactForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-  const formData = new FormData(contactForm);
+    formStatus.textContent = "Sender...";
+    formStatus.className = "form-status sending";
 
-  try {
-    const response = await fetch("/api/contact", {
-      method: "POST",
-      body: formData
-    });
+    const formData = new FormData(contactForm);
 
-    const data = await response.json();
+    try {
 
-    if (!response.ok || !data.success) {
-      throw new Error(data.message || "Kunne ikke sende forespørselen");
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(
+          data.message || "Kunne ikke sende forespørselen"
+        );
+      }
+
+      formStatus.textContent = "";
+
+      contactForm.reset();
+      contactForm.hidden = true;
+      formSuccess.hidden = false;
+
+    } catch (error) {
+
+      console.error(error);
+
+      formStatus.textContent =
+        "Noe gikk galt. Prøv igjen, eller kontakt oss på telefon.";
+
+      formStatus.className = "form-status error";
+
+    }
+  });
+
+}
+
+
+// -------------------------
+// DROPDOWN-MENY
+// -------------------------
+
+const dropdownToggle = document.querySelector(".dropdown-toggle");
+const navDropdown = document.querySelector(".nav-dropdown");
+
+if (dropdownToggle && navDropdown) {
+
+  dropdownToggle.addEventListener("click", () => {
+
+    const isOpen = navDropdown.classList.toggle("open");
+
+    dropdownToggle.setAttribute(
+      "aria-expanded",
+      isOpen ? "true" : "false"
+    );
+
+  });
+
+  document.addEventListener("click", (event) => {
+
+    if (!navDropdown.contains(event.target)) {
+
+      navDropdown.classList.remove("open");
+      dropdownToggle.setAttribute("aria-expanded", "false");
+
     }
 
-    formStatus.textContent = "";
+  });
 
-    contactForm.reset();
-    contactForm.hidden = true;
-    formSuccess.hidden = false;
-
-  } catch (error) {
-    console.error(error);
-
-    formStatus.textContent =
-      "Noe gikk galt. Prøv igjen, eller kontakt oss på telefon.";
-
-    formStatus.className = "form-status error";
-  }
-});
+}

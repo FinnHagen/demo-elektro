@@ -58,6 +58,115 @@ nav a:hover {
 }
 
 
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    position: relative;
+    z-index: 1001;
+}
+
+/* -------------------------
+   DROPDOWN-MENY
+------------------------- */
+
+.nav-dropdown {
+    position: relative;
+}
+
+.dropdown-toggle {
+    padding: 0;
+    background: none;
+    border: none;
+    color: white;
+    font: inherit;
+    font-size: 15px;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.dropdown-toggle:hover,
+.dropdown-toggle:focus-visible {
+    color: #f5b400;
+}
+
+.dropdown-arrow {
+    font-size: 12px;
+    transition: transform 0.2s;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+
+    min-width: 220px;
+    padding: 8px 0;
+
+    background: #1a1a1a;
+    border-radius: 6px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-5px);
+
+    transition: 0.2s;
+
+    z-index: 1000;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 12px 18px;
+    white-space: nowrap;
+}
+
+.dropdown-menu a:hover {
+    background: #252525;
+    color: #f5b400;
+}
+
+
+/* Åpen dropdown */
+
+.nav-dropdown.open .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.nav-dropdown.open .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+
+/* Desktop: åpne også med mus */
+
+@media (min-width: 751px) {
+
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .nav-dropdown:hover .dropdown-arrow,
+    .nav-dropdown:focus-within .dropdown-arrow {
+        transform: rotate(180deg);
+    }
+
+}
+
+
 /* -------------------------
    HERO
 ------------------------- */
@@ -182,9 +291,16 @@ section h2 {
     padding: 35px;
     border-radius: 8px;
 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
 
     transition: 0.2s;
+}
+
+.service-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .service:hover {
@@ -287,60 +403,6 @@ footer p {
 }
 
 
-/* -------------------------
-   MOBIL
-------------------------- */
-
-@media (max-width: 750px) {
-
-    header {
-        height: auto;
-        padding: 20px;
-
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    nav {
-        gap: 15px;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .hero {
-        min-height: 600px;
-        padding: 60px 25px;
-    }
-
-    .hero-buttons {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    section:not(.hero):not(.contact) {
-        padding: 70px 25px;
-    }
-
-    section h2 {
-        font-size: 34px;
-    }
-
-    .services,
-    .reviews {
-        grid-template-columns: 1fr;
-    }
-
-    .contact-buttons {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    footer {
-        flex-direction: column;
-        gap: 10px;
-    }
-}
-
 #topBtn {
   position: fixed;
   bottom: 25px;
@@ -371,44 +433,161 @@ footer p {
   transform: translateY(-3px);
 }
 
-.menu-toggle {
-  display: none;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 30px;
-  cursor: pointer;
 
-  position: relative;
-  z-index: 1001;
-}
+/* -------------------------
+   MOBIL
+------------------------- */
 
 @media (max-width: 750px) {
-  .menu-toggle {
-    display: block;
-  }
 
-  nav {
-    display: none;
-    position: absolute;
-    top: 70px;
-    left: 0;
-    width: 100%;
-    background: #111;
-    flex-direction: column;
-    padding: 20px;
-    z-index: 1000;
-  }
+    /* Header og navigasjon */
 
-  nav.open {
-    display: flex;
-  }
+    header {
+        height: 80px;
+        padding: 0 25px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+    }
 
-  nav a {
-    padding: 12px 0;
-  }
+    .logo {
+        font-size: 20px;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    nav {
+        display: none;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        padding: 20px 25px 25px;
+        background: #111;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        z-index: 1000;
+    }
+
+    nav.open {
+        display: flex;
+    }
+
+    nav > a {
+        padding: 14px 0;
+    }
+
+    /* Dropdown */
+
+    .nav-dropdown {
+        width: 100%;
+    }
+
+    .dropdown-toggle {
+        width: 100%;
+        padding: 14px 0;
+        justify-content: space-between;
+        font-size: 15px;
+        text-align: left;
+    }
+
+    .dropdown-menu {
+        position: static;
+        width: 100%;
+        min-width: 0;
+        margin: 0;
+        padding: 0;
+        background: #1a1a1a;
+        border-radius: 6px;
+        box-shadow: none;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        display: none;
+    }
+
+    .nav-dropdown.open .dropdown-menu {
+        display: block;
+    }
+
+    .dropdown-menu a {
+        padding: 13px 18px;
+    }
+
+    /* Hero */
+
+    .hero {
+        min-height: 600px;
+        padding: 60px 25px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    /* Innhold */
+
+    section:not(.hero):not(.contact) {
+        padding: 70px 25px;
+    }
+
+    section h2 {
+        font-size: 34px;
+    }
+
+    .services,
+    .reviews {
+        grid-template-columns: 1fr;
+    }
+
+    /* Litt strammere kort på mobil */
+
+    .service {
+        padding: 30px;
+    }
+
+    /* Kontakt */
+
+    .contact-buttons {
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .contact-btn {
+        width: auto;
+        min-height: 52px;
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+
+    .contact-icon {
+        width: 19px;
+        height: 19px;
+    }
+
+    /* Footer */
+
+    footer {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    /* Til toppen */
+
+    #topBtn {
+        width: 44px;
+        height: 44px;
+        right: 18px;
+        bottom: 18px;
+        font-size: 20px;
+    }
 }
-
 
 .contact-form {
   max-width: 600px;
@@ -549,26 +728,6 @@ footer p {
   color: #111;
 }
 
-@media (max-width: 750px) {
-
-  .contact-buttons {
-    flex-direction: row;
-    gap: 10px;
-  }
-
-  .contact-btn {
-    width: auto;
-    min-height: 52px;
-    padding: 12px 16px;
-    font-size: 14px;
-  }
-
-  .contact-icon {
-    width: 19px;
-    height: 19px;
-  }
-}
-
 .form-status {
     min-height: 24px;
     margin: 14px 0 0;
@@ -641,4 +800,15 @@ footer p {
 
 .contact-form[hidden] {
     display: none;
+}
+
+/* Eget hero-bilde for elbillader-siden */
+
+.hero-elbillader {
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+        url("images/elbillader.jpg");
+
+    background-size: cover;
+    background-position: center;
 }
